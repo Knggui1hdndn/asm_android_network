@@ -26,8 +26,10 @@ class lesson2 : AppCompatActivity() {
                     bundle.putString("mess", "LoadImageFromInternet")
                     msg.data = bundle
                     handler.sendMessage(msg)
-                    img.setImageBitmap(bitmap)
-                }
+                    img.post {
+                        img. setImageBitmap(bitmap)
+                    }
+                }.start()
             }
 
         }
