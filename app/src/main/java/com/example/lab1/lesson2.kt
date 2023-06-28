@@ -16,25 +16,27 @@ class lesson2 : AppCompatActivity() {
         binding = ActivityLesson2Binding.inflate(layoutInflater)
         setContentView(binding.root)
         with(binding) {
-            btnLoad.setOnClickListener { }
-            progress = ProgressDialog.show(this@lesson2, "Load", "Loading...")
-            Thread {
-                val bitmap =
-                    LoadImg.loadImageFromInternet("https://synnexfpt.com/wp-content/uploads/2022/07/FPT-Services-Banner-2.jpg")
-                val msg = handler.obtainMessage()
-                val bundle = Bundle()
-                bundle.putString("mess", "LoadImageFromInternet")
-                msg.data = bundle
-                handler.sendMessage(msg)
-                img.setImageBitmap(bitmap)
+            btnLoad.setOnClickListener {
+                progress = ProgressDialog.show(this@lesson2, "Load", "Loading...")
+                Thread {
+                    val bitmap =
+                        LoadImg.loadImageFromInternet("https://synnexfpt.com/wp-content/uploads/2022/07/FPT-Services-Banner-2.jpg")
+                    val msg = handler.obtainMessage()
+                    val bundle = Bundle()
+                    bundle.putString("mess", "LoadImageFromInternet")
+                    msg.data = bundle
+                    handler.sendMessage(msg)
+                    img.setImageBitmap(bitmap)
+                }
             }
+
         }
     }
 
     private val handler: Handler = Handler(Looper.getMainLooper()) {
         val bundle = it.data
         val string = bundle.getString("mess")
-        binding.textView.text=string
+        binding.textView.text = string
         progress.dismiss()
         true
     }
