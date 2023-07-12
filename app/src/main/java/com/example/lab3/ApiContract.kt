@@ -1,4 +1,12 @@
 package com.example.lab3
 
-class ApiClientContract {
+interface ApiContract {
+    interface View {
+        fun onSuccess(rs: List<Photos>);
+        fun onFailure(e: String);
+    }
+
+    interface Presenter {
+        fun getPhotos()
+    }
 }
