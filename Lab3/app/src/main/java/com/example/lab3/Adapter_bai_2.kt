@@ -3,23 +3,26 @@ package com.example.lab3
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.lab3.databinding.ItemBai2Binding
 import com.example.lab3.databinding.ItemBinding
+import com.example.lab3.model.Photos
+import com.example.lab3.model.Profile
+import com.example.lab3.model.ProfileItem
 import com.squareup.picasso.Picasso
 
-class Adapter(val list: List<Photos>) : RecyclerView.Adapter<Adapter.AdapterViewHolder>() {
-    class AdapterViewHolder(val binding: ItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(photos: Photos) {
+class Adapter_bai_2(val list: Profile) : RecyclerView.Adapter<Adapter_bai_2.AdapterViewHolder>() {
+    class AdapterViewHolder(val binding: ItemBai2Binding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(profile: ProfileItem) {
             with(binding) {
-                txtId.text = "Id: ${photos.id}"
-                txtTitle.text = "Title: ${photos.title}"
-                Picasso.get().load(photos.thumbnailUrl).into(img)
+                val text = "name: ${profile.name} \n email: ${profile.email} \n home: ${profile.phone.home} \n mobile: ${profile.phone.mobile}"
+                this.profile.text=text
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdapterViewHolder {
         return AdapterViewHolder(
-            ItemBinding.inflate(
+            ItemBai2Binding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             )
         )

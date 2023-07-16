@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.lab3.databinding.ItemBinding
+import com.example.lab3.model.Photos
 import com.squareup.picasso.Picasso
 
 class Adapter(val list: List<Photos>) : RecyclerView.Adapter<Adapter.AdapterViewHolder>() {

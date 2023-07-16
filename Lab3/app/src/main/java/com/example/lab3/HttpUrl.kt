@@ -1,6 +1,7 @@
 package com.example.lab3
 
 import android.os.AsyncTask
+import com.example.lab3.model.Photos
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.BufferedReader

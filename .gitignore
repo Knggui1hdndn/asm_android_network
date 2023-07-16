@@ -12,6 +12,4 @@
 /captures
 .externalNativeBuild
 .cxx
- local.properties
-Lab3/.idea/misc.xml
-.Lab3/.gitignore
+local.properties
