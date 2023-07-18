@@ -3,6 +3,7 @@ package com.example.asm_network
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,7 +14,7 @@ class MainActivity : AppCompatActivity(), ApiContracts.View {
     val presenter = ApiProductPresenter(this)
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: Adapter
-    private lateinit var products: Products
+    private   var products: Products = Products()
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -32,7 +33,7 @@ class MainActivity : AppCompatActivity(), ApiContracts.View {
         presenter.getProducts()
         adapter = Adapter(Products(), {id,i->
             binding.pg.visibility = View.VISIBLE
-            presenter.deleteProduct(id) { b, e ->
+             presenter.deleteProduct(id) { b, e ->
                 if (b) {
                     Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
                     products.removeAt(i)
@@ -43,7 +44,10 @@ class MainActivity : AppCompatActivity(), ApiContracts.View {
                 binding.pg.visibility = View.INVISIBLE
             }
         },{
-            startActivityForResult(it, 1)
+            val intent = Intent(this, UpdateActivity::class.java)
+
+            intent.putExtra("id", it)
+            startActivityForResult(intent,1)
         })
         binding.btnAdd.setOnClickListener {
             val intent = Intent(this@MainActivity, UpdateActivity::class.java)
@@ -58,7 +62,8 @@ class MainActivity : AppCompatActivity(), ApiContracts.View {
             val mng = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
             binding.rcy.layoutManager = mng
             binding.rcy.adapter = adapter
-            products=rs
+            products.clear()
+            products.addAll(rs)
             adapter.setData(products)
         }
         Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()

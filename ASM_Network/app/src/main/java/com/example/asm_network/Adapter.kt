@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnLongClickListener
@@ -14,7 +15,7 @@ import com.example.asm_network.model.Products
 import com.example.asm_network.model.ProductsItem
 import com.example.asm_network.utils.ConvertImg
 
-class Adapter(var products: Products, val clickItem: (String,Int) -> Unit,val clickUpdate:(Intent)->Unit) :
+class Adapter(var products: Products, val clickItem: (String,Int) -> Unit,val clickUpdate:(String)->Unit) :
     RecyclerView.Adapter<Adapter.AdapterViewHolder>() {
 
     inner class AdapterViewHolder(val binding: ItemProductsBinding) :
@@ -29,17 +30,14 @@ class Adapter(var products: Products, val clickItem: (String,Int) -> Unit,val cl
                 imgProduct.setImageBitmap(ConvertImg.convertStringToBitmap(product.image))
                 mRelate.setOnLongClickListener(object : OnLongClickListener {
                     override fun onLongClick(v: View?): Boolean {
-                        showDialog(v!!.context, product._id.toString())
+                        showDialog(v!!.context, product._id!! )
                         return true
                     }
 
                 })
                 imgShow.setOnClickListener { showDialog(it.context, product) }
                 imgEdit.setOnClickListener {
-
-                    val intent = Intent(it.context, UpdateActivity::class.java)
-                    intent.putExtra("id", product._id)
-                    clickUpdate(intent)
+                    clickUpdate(product._id!!)
                 }
 
             }
@@ -49,7 +47,7 @@ class Adapter(var products: Products, val clickItem: (String,Int) -> Unit,val cl
             val dialog =
                 AlertDialog.Builder(context).setMessage("Xác nhận xóa").setTitle("Thông báo!")
                     .setPositiveButton("Delete") { dialogInterface: DialogInterface, i: Int ->
-                       clickItem(products.toString(),adapterPosition)
+                       clickItem(id,adapterPosition)
 
                     }
                     .setNegativeButton("Cancel") { dialogInterface: DialogInterface, i: Int ->
@@ -86,7 +84,8 @@ class Adapter(var products: Products, val clickItem: (String,Int) -> Unit,val cl
 
     fun setData(product: Products) {
         products.clear()
-        products = product
+        products.addAll(product)
+        Log.e("âsđsd",products.size.toString())
         notifyDataSetChanged()
     }
 

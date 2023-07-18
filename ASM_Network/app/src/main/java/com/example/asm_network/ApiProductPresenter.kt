@@ -56,12 +56,12 @@ class ApiProductPresenter(val view: ApiContracts.View) : ApiContracts.Presenter 
     override fun deleteProduct(id: String,callback: (Boolean,String)->Unit) {
         ApiClient.getInstant.deleteProduct(id).enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                if (response.isSuccessful) callback(true,"") else callback(false,"Error")
+                if (response.isSuccessful) callback(true,"") else callback(false,response.errorBody()!!.string())
 
             }
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                callback(false,"Error")
+                callback(false,t.message.toString())
 
             }
 
